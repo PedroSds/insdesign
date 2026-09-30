@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<body style="margin:0; background:black;">
+<video id="v" src="assets/Site 1.webm" style="display:none;"></video>
+<canvas id="c" width="1344" height="772"></canvas>
+<pre id="out" style="color:white;"></pre>
+<script>
+const v = document.getElementById('v');
+const c = document.getElementById('c');
+const ctx = c.getContext('2d');
+
+v.onloadeddata = () => {
+    v.currentTime = 1.0;
+};
+
+v.onseeked = () => {
+    ctx.drawImage(v, 0, 0);
+    const imgData = ctx.getImageData(0, 0, 1344, 772).data;
+    
+    // Find inner screen area: look for white/page pixels inside
+    // Let's sample along horizontal line y = 386 (middle)
+    let left = 0, right = 1343;
+    for (let x = 0; x < 1344; x++) {
+        const i = (386 * 1344 + x) * 4;
+        const r = imgData[i], g = imgData[i+1], b = imgData[i+2];
+        // Laptop bezel is dark/black (#000 - #30)
+        if (r > 60 || g > 60 || b > 60) {
+            left = x;
+            break;
+        }
+    }
+    for (let x = 1343; x >= 0; x--) {
+        const i = (386 * 1344 + x) * 4;
+        const r = imgData[i], g = imgData[i+1], b = imgData[i+2];
+        if (r > 60 || g > 60 || b > 60) {
+            right = x;
+            break;
+        }
+    }
+    
+    // Find top and bottom along x = 672 (middle)
+    let top = 0, bottom = 771;
+    for (let y = 0; y < 772; y++) {
+        const i = (y * 1344 + 672) * 4;
+        const r = imgData[i], g = imgData[i+1], b = imgData[i+2];
+        if (r > 60 || g > 60 || b > 60) {
+            top = y;
+            break;
+        }
+    }
+    for (let y = 771; y >= 0; y--) {
+        const i = (y * 1344 + 672) * 4;
+        const r = imgData[i], g = imgData[i+1], b = imgData[i+2];
+        // Looking up from bottom, skip gray laptop base
+        // Screen bezel has 'MacBook Air' text around y = 670-700
+        // Screen bottom is around y = 660
+        if (y < 700 && (r > 80 || g > 80 || b > 80)) {
+            bottom = y;
+            break;
+        }
+    }
+    
+    document.getElementById('out').innerText = JSON.stringify({
+        left, right, width: right - left,
+        top, bottom, height: bottom - top
+    });
+};
+</script>
+</body>
+</html>

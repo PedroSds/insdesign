@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { background: #111; color: #fff; font-family: sans-serif; padding: 20px; }
+        .grid { display: flex; flex-direction: column; gap: 30px; }
+        .card { background: #222; padding: 15px; border-radius: 8px; }
+        video { max-width: 100%; height: auto; border: 1px solid #444; }
+    </style>
+</head>
+<body>
+    <div class="grid">
+        <div class="card">
+            <h2>Site 1</h2>
+            <video id="v1" src="assets/Site 1.webm" muted autoplay playsinline></video>
+            <p id="info1"></p>
+        </div>
+        <div class="card">
+            <h2>Site 2</h2>
+            <video id="v2" src="assets/Site 2.webm" muted autoplay playsinline></video>
+            <p id="info2"></p>
+        </div>
+        <div class="card">
+            <h2>Site 3</h2>
+            <video id="v3" src="assets/Site 3.webm" muted autoplay playsinline></video>
+            <p id="info3"></p>
+        </div>
+    </div>
+    <script>
+        ['v1', 'v2', 'v3'].forEach((id, i) => {
+            const v = document.getElementById(id);
+            v.onloadedmetadata = () => {
+                document.getElementById('info' + (i+1)).innerText = `Res: ${v.videoWidth}x${v.videoHeight}, Dur: ${v.duration}s`;
+            };
+        });
+    </script>
+</body>
+</html>

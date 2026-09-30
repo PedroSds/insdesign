@@ -1,0 +1,13 @@
+INSDESIGN — REFERÊNCIA HTML PARA O ANTIGRAVITY
+
+Abra index.html. O projeto funciona sem instalação e sem dependências externas.
+Cor principal: #911C60, definida na variável --brand de style.css.
+
+Preservar as curvas desta versão: os SVGs section-shape estão dentro do HTML.
+O fundo luminoso usa assets/ribbons.svg; a textura clara usa assets/silk.svg.
+São desenhos vetoriais editáveis, sem necessidade de recriar por imagem.
+
+O HTML é referência visual e pode ser convertido para index.php mantendo a estrutura.
+Os links de orçamento usam o endereço divulgado no Instagram: insdesign.com.br/contato.
+O projeto de cafeteria está identificado como estudo, conforme a publicação original.
+Textos de processo e manifesto são propostas editoriais. Não há números, resultados ou depoimentos inventados.
